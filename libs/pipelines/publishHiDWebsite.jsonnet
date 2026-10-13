@@ -6,11 +6,11 @@ local buildah           = import '../steps/buildah.jsonnet';
 local when              = import '../drone/when.jsonnet';
 
 {
-        new(image,tag,registry,containerfile):: pipeline.new()
-                .withName("Publish-Static-Website")
+        new(image,build):: pipeline.new()
+                .withName("Publish-Static-Website-" + image.name + ":" + image.tags[0])
                 .withSteps([
                         gitSteps.checkoutSubmodules().withName("CheckoutSubmodules"),
                         hid.withName("Generate-HiD").withDependsOn(["CheckoutSubmodules"]),
-                        buildah.new(image,tag, registry,containerfile).withDependsOn(["Generate-HiD"])
+                        buildah.new(image, build).withDependsOn(["Generate-HiD"])
                     ])
 }
