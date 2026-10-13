@@ -1,11 +1,15 @@
 local step = import '../drone/step.jsonnet';
 
 {
-    new(imageName, tag, registry, containerfile):: step.new("Container-Build", "quay.io/buildah/stable")
+    new(image, build):: step.new("Container-Build", "quay.io/buildah/stable")
                 .withPrivileged()
-                .withCommands([
-                            "buildah bud -f " +containerfile + " -t " +registry + "/" + imageName + ":" + tag,
-                            "buildah push --all " + registry + "/" + imageName + ":" + tag
-                            ])
+                .withCommands(
+                            [
+                              "buildah bud -f " +build.containerfile + " -t " +build.cache.url + "/" + image.name + ":" + image.tags[0],
+                              "buildah push --all " + build.cache.url + "/" + image.name + ":" + image.tags[0]
+                            ]
+                )
+
+
 
 }
