@@ -8,7 +8,7 @@ local step = import '../drone/step.jsonnet';
                               ]
                               +
                               [
-                                "buildah manifest add " + build.cache.url + "/" + build.manifest.name + ":" + build.manifest.tags[0] + "-" + arch
+                                "buildah manifest add " + build.manifest.name + ":"+ build.manifest.tags[0] + " " + build.cache.url + "/" + build.manifest.name + ":" + build.manifest.tags[0] + "-" + arch
                                 for arch in build.manifest.archs
                               ]
                               +
