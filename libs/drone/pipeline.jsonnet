@@ -4,7 +4,6 @@ local platform  = import 'platform.jsonnet';
 local pipeline = {
     dependPipelines:: [],
     new():: (self + base.new().withKind("pipeline"))
-                             .withPlatform(platform.new())
                              .withType("kubernetes"),
     withType(type):: self + { type: type },
     withPlatform(platform):: self + { platform: platform },
