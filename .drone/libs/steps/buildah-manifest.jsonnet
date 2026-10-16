@@ -8,7 +8,7 @@ local step = import '../drone/step.jsonnet';
                               ]
                               +
                               [
-                                "buildah manifest add " + build.manifest.name + ":"+ build.manifest.tags[0] + " " + build.cache.url + "/" + build.manifest.name + ":" + build.manifest.tags[0] + "-" + arch
+                                "buildah manifest add " + build.manifest.name + ":"+ build.manifest.tags[0] + " " + build.cache.url + build.cache.path + "/" + build.manifest.name + ":" + build.manifest.tags[0] + "-" + arch
                                 for arch in build.manifest.archs
                               ]
                               +
@@ -16,9 +16,9 @@ local step = import '../drone/step.jsonnet';
 
                                  (
                                  if r.auth then
-                                 "buildah login -u " + r.username + " -p " + r.password + " " + r.url + ";" + "buildah manifest push --all " + build.manifest.name + ":" + build.manifest.tags[0] + " " + r.url + "/" + build.manifest.name + ":" + tag
+                                 "buildah login -u " + r.username + " -p " + r.password + " " + r.url + ";" + "buildah manifest push --all " + build.manifest.name + ":" + build.manifest.tags[0] + " " + r.url + build.manifest.path + "/" + build.manifest.name + ":" + tag
                                  else
-                                 "buildah manifest push --all " + build.manifest.name + ":" + build.manifest.tags[0] + " docker://" + r.url + "/" + build.manifest.name + ":" + tag
+                                 "buildah manifest push --all " + build.manifest.name + ":" + build.manifest.tags[0] + " docker://" + r.url +  build.manifest.path + "/" + build.manifest.name + ":" + tag
                                  )
                                  for tag in build.manifest.tags
                                  for r in build.registries
