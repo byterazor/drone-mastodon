@@ -5,7 +5,7 @@ local build = import '.drone/libs/builds/ContainerImageBuild.jsonnet';
 local secret = import '.drone/libs/drone/secret.jsonnet';
 
 local dockerUsernameSecret = secret.new("docker-username","docker","username");
-local dockerPasswordSecret = secret.new("docker-password","docker","password");
+local dockerPasswordSecret = secret.new("docker-password","docker","secret");
 
 
 local fedhqRegistry = containerRegistry.new("registry.cloud.federationhq.de");
@@ -18,10 +18,4 @@ local myBuild = containerBuild.new(manifest).withRegistries([fedhqRegistry,docke
                                              .withCacheRegistry(fedhqRegistry);
 
 
-build.new(myBuild).withSecrets(
-                                  [
-                                    secret.new("DOCKER_USERNAME","docker","username"),
-                                    secret.new("DOCKER_PASSWORD","docker","secret")
-                                  ]
-                                )
-                                .render()
+build.new(myBuild).render()
