@@ -5,9 +5,9 @@ local step = import '../drone/step.jsonnet';
                 .withPrivileged()
                 .withCommands(
                             [
-                              "buildah bud -f " +build.containerfile + " -t " +build.cache.url + "/" + image.name + ":" + image.tags[0],
+                              "buildah bud -f " +build.containerfile + " -t " +build.cache.url + build.cache.path + "/" + image.name + ":" + image.tags[0],
                               if push then
-                                "buildah push --all " + build.cache.url + "/" + image.name + ":" + image.tags[0]
+                                "buildah push --all " + build.cache.url + build.cache.path + "/" + image.name + ":" + image.tags[0]
                             ]
                 )
 
