@@ -17,7 +17,7 @@ local base = {
       .withPasswordSecret(passwordSecret),
     loginCommand()::
           if std.objectHas(self,'passwordSecret') then
-            "buildah login -u $" + std.asciiUpper(self.usernameSecret.name) + " -p $" + std.asciiUpper(self.passwordSecret.name) + " " + self.url
+            "buildah login -u $" + droneStd.envVarForSecret(self.usernameSecret) + " -p $" +droneStd.envVarForSecret(self.passwordSecret) + " " + self.url
           else
             "buildah login -u " + self.username + " -p " + self.password + " " + self.url,
 };

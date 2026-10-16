@@ -5,6 +5,7 @@ local step = import '../drone/step.jsonnet';
                 .withPrivileged()
                 .withEnv(build.registriesEnvironment())
                 .withCommands([
+                              "export",
                               "buildah manifest create " + build.manifest.name + ":"+ build.manifest.tags[0]
                               ]
                               +
@@ -17,7 +18,7 @@ local step = import '../drone/step.jsonnet';
 
                                  (
                                  if r.auth then
-                                  r.loginCommand() + ";" + "buildah manifest push --all " + build.manifest.name + ":" + build.manifest.tags[0] + " " + r.url + r.path + "/" + build.manifest.name + ":" + tag
+                                  r.loginCommand() + ";" + "buildah manifest push --all " + build.manifest.name + ":" + build.manifest.tags[0] + " " + " docker://" + r.url + r.path + "/" + build.manifest.name + ":" + tag
                                  else
                                  "buildah manifest push --all " + build.manifest.name + ":" + build.manifest.tags[0] + " docker://" + r.url +  r.path + "/" + build.manifest.name + ":" + tag
                                  )
