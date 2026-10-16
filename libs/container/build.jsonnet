@@ -1,4 +1,4 @@
-
+local droneStd = import '../drone/std.jsonnet';
 
 local base = {
     new(manifest):: {} + self.withContainerFile("Containerfile")
@@ -16,7 +16,7 @@ local base = {
                              + (if std.objectHas(r,'passwordSecret') then [r.passwordSecret] else [])];
       flat,
     registriesEnvironment()::
-            { [std.asciiUpper(s.name)]: {from_secret: s.name} for s in self.registrySecrets() }
+            { [droneStd.envVarForSecret(s)]: {from_secret: s.name} for s in self.registrySecrets() }
 
 };
 
