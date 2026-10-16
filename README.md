@@ -1,4 +1,4 @@
-# drone-redmine
+# drone-mastodon
 
 ## Description
 
