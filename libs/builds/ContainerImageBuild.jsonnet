@@ -11,6 +11,7 @@ local when              = import '../drone/when.jsonnet';
 
 {
     new(containerBuild):: self + build.new()
+                 .withSecrets(containerBuild.registrySecrets())
                  .withPipelines([
                      baseVerifyBranch.new(), // check everything commit related on current branch
                      baseVerifyMain.new(),   // check everything commit related on main branch, if build for main branch
