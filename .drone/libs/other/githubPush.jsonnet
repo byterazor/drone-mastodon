@@ -1,4 +1,5 @@
 local step = import '../drone/step.jsonnet';
+local pipeline = import '../drone/pipeline.jsonnet';
 
 {
   new(username, token):: {} + self.withUsername(username).withToken(token),
@@ -20,5 +21,11 @@ local step = import '../drone/step.jsonnet';
                 GH_REPO: repo,
                 GH_REPO_DESC: desc,
                 GH_REPO_HOMEPAGE: url
-            })
+            }),
+    pushPipeline()::
+        pipeline.new()
+            .withName("Github-Push")
+            .withSteps([
+                self.push()
+                ])
 }
